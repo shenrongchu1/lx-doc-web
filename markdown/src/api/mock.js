@@ -24,7 +24,7 @@ const mockData = {
   getFileContent: {
     id: '123',
     name: '我的markdown文件',
-    content: '# 理想文档'
+    content: '# SRC文档'
   }
 }
 

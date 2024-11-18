@@ -92,7 +92,7 @@
       // 设置页面标题
       setPageTitle(title) {
         title = title || '流程图'
-        document.title = title + '_理想文档'
+        document.title = title + '_SRC文档'
       },
       // 获取用户信息
       async getUserInfo() {

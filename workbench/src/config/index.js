@@ -4,7 +4,7 @@ export default {
   // logo
   logo: logoUrl,
   // 名称
-  name: '理想文档',
+  name: 'SRC文档',
   // 可创建的文件类型
   createTypeList: [
     {

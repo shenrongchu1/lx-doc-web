@@ -12,5 +12,5 @@ export const downloadFile = (data, fileName) => {
 // 设置页面标题
 export const setPageTitle = (title) => {
   title = title || '文档'
-  document.title = title + '_理想文档'
+  document.title = title + '_SRC文档'
 }

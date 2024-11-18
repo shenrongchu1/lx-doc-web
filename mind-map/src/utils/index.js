@@ -78,5 +78,5 @@ export const setImgToClipboard = img => {
 // 设置页面标题
 export const setPageTitle = (title) => {
   title = title || '思维导图'
-  document.title = title + '_理想文档'
+  document.title = title + '_SRC文档'
 }

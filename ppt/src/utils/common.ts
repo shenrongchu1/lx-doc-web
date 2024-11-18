@@ -19,5 +19,5 @@ export const isPC = () => {
 // 设置页面标题
 export const setPageTitle = (title: string) => {
   title = title || '幻灯片'
-  document.title = title + '_理想文档'
+  document.title = title + '_SRC文档'
 }
