@@ -486,7 +486,7 @@
 
 		<!-- 确保 integrate.js 文件存在 -->
 		<available file="${basedir}/../integrate/Integrate.js" property="Integrate.js.exists"/>
-		<fail unless="Integrate.js.exists" message="Integrate.js 文件不存在"/>
+		<fail unless="Integrate.js.exists" message="${basedir}/../integrate/Integrate.js 文件不存在"/>
 
 		<jscomp compilationLevel="simple" debug="false" forceRecompile="true" output="${basedir}/.tmp0.js">
 			<sources dir="${basedir}/../integrate">
