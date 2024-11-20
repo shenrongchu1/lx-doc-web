@@ -62,6 +62,7 @@
     </div>
     <div class="editorBox">
       <MdEditor
+        v-if="currentPreviewTheme && currentCodeTheme"
         v-model="content"
         :previewTheme="currentPreviewTheme"
         :codeTheme="currentCodeTheme"
@@ -328,6 +329,19 @@ const getFileData = async () => {
   }
 }
 getFileData()
+
+// 确保在数据加载完成后才渲染 MdEditor
+watch(
+  () => store.userConfig,
+  (newVal) => {
+    currentPreviewTheme.value = newVal.previewTheme || 'default'
+    currentCodeTheme.value = newVal.codeTheme || 'atom'
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+)
 
 window.onbeforeunload = function () {
   if (store.autoSaveStatus !== 'success') {
