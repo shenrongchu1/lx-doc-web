@@ -283,7 +283,7 @@ const previewThemeList = ref([
   'smart-blue',
   'cyanosis'
 ])
-const currentPreviewTheme = ref(store.userConfig.previewTheme || 'default')
+const currentPreviewTheme = computed(() => store.userConfig.previewTheme || 'default')
 const onPreviewThemeChange = val => {
   store.updateUserConfig({
     previewTheme: val
@@ -301,7 +301,7 @@ const codeThemeList = ref([
   'qtcreator',
   'stackoverflow'
 ])
-const currentCodeTheme = ref(store.userConfig.previewTheme || 'atom')
+const currentCodeTheme = computed(() => store.userConfig.codeTheme || 'atom')
 const onCodeThemeChange = val => {
   store.updateUserConfig({
     codeTheme: val
