@@ -44,7 +44,7 @@
           type="primary"
           style="width: 100%; height: 50px"
           @click="confirm"
-          >{{ isRegister ? '注册' : '登录' }}</el-button
+        >{{ isRegister ? '注册' : '登录' }}</el-button
         >
         <div class="btnBox">
           <div class="registerBtn" @click="changeToLogin" v-if="isRegister">
@@ -55,6 +55,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <!-- 添加备案号 -->
+    <div class="beian">
+      <a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2024353533号</a>
     </div>
   </div>
 </template>
@@ -172,10 +176,11 @@ const changeToLogin = () => {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  flex-direction: column; /* 修改为 column 布局 */
 
   .infoBox {
-    width: 30%;
-    height: 100%;
+    width: 100%; /* 修改为 100% */
+    height: auto; /* 修改为 auto */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -211,11 +216,12 @@ const changeToLogin = () => {
   }
 
   .formBox {
-    width: 70%;
-    height: 100%;
+    width: 100%; /* 修改为 100% */
+    height: auto; /* 修改为 auto */
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-grow: 1; /* 添加 flex-grow */
 
     .formWrap {
       width: 400px;
@@ -238,6 +244,23 @@ const changeToLogin = () => {
           cursor: pointer;
           user-select: none;
         }
+      }
+    }
+  }
+
+  .beian {
+    text-align: center; /* 居中显示 */
+    margin-top: auto; /* 将备案号推到页面底部 */
+    padding: 10px 0;
+    font-size: 12px;
+    color: #999;
+
+    a {
+      color: #999;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
