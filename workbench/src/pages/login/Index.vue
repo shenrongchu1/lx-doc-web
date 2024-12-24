@@ -44,7 +44,7 @@
           type="primary"
           style="width: 100%; height: 50px"
           @click="confirm"
-          >{{ isRegister ? '注册' : '登录' }}</el-button
+        >{{ isRegister ? '注册' : '登录' }}</el-button
         >
         <div class="btnBox">
           <div class="registerBtn" @click="changeToLogin" v-if="isRegister">
@@ -176,15 +176,18 @@ const changeToLogin = () => {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  flex-direction: column; /* 将容器改为垂直布局 */
+  justify-content: space-between; /* 将内容分布在容器上下 */
 
   .infoBox {
-    width: 30%;
-    height: 100%;
+    width: 100%; /* 调整宽度 */
+    height: auto; /* 调整高度 */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: #eef1f3;
+    padding: 20px 0; /* 添加内边距 */
 
     .logoBox {
       display: flex;
@@ -215,11 +218,12 @@ const changeToLogin = () => {
   }
 
   .formBox {
-    width: 70%;
-    height: 100%;
+    width: 100%; /* 调整宽度 */
+    height: auto; /* 调整高度 */
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px 0; /* 添加内边距 */
 
     .formWrap {
       width: 400px;
@@ -244,6 +248,11 @@ const changeToLogin = () => {
         }
       }
     }
+  }
+
+  .beian {
+    text-align: center; /* 居中对齐 */
+    margin-bottom: 20px; /* 添加底部外边距 */
   }
 }
 </style>
