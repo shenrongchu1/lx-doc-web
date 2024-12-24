@@ -56,6 +56,10 @@
         </div>
       </div>
     </div>
+    <!-- 添加备案号 -->
+    <div class="beian">
+      <a href="https://beian.miit.gov.cn" target="_blank">粤ICP备2024353533号</a>
+    </div>
   </div>
 </template>
 
