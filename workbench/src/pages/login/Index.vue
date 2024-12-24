@@ -176,18 +176,15 @@ const changeToLogin = () => {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  flex-direction: column; /* 将容器改为垂直布局 */
-  justify-content: space-between; /* 将内容分布在容器上下 */
 
   .infoBox {
-    width: 100%; /* 调整宽度 */
-    height: auto; /* 调整高度 */
+    width: 30%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: #eef1f3;
-    padding: 20px 0; /* 添加内边距 */
 
     .logoBox {
       display: flex;
@@ -218,12 +215,11 @@ const changeToLogin = () => {
   }
 
   .formBox {
-    width: 100%; /* 调整宽度 */
-    height: auto; /* 调整高度 */
+    width: 70%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 0; /* 添加内边距 */
 
     .formWrap {
       width: 400px;
@@ -251,8 +247,11 @@ const changeToLogin = () => {
   }
 
   .beian {
-    text-align: center; /* 居中对齐 */
-    margin-bottom: 20px; /* 添加底部外边距 */
+    position: absolute; /* 绝对定位 */
+    bottom: 20px; /* 距离底部 20px */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%); /* 水平居中 */
+    text-align: center; /* 文本居中 */
   }
 }
 </style>
