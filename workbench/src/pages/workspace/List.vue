@@ -14,26 +14,23 @@
       <div class="headerRight">
         <Avatar></Avatar>
         <!-- 新增颜色选择按钮 -->
-        <el-popover
-          placement="bottom-end"
-          trigger="click"
-          width="300"
-          v-model:visible="colorPickerVisible"
+        <el-color-picker
+          v-model="selectedBgColor"
+          show-alpha
+          :predefine="predefinedColors"
+          @change="applyColor"
+          class="header-btn color-picker-btn"
         >
-          <template #reference>
-            <IconBtn icon="icon-yanse" class="color-picker-btn"></IconBtn>
-          </template>
-          <div class="color-picker-panel" @click.stop>
-            <!-- 调色盘组件 -->
-            <el-color-picker
-              v-model="selectedBgColor"
-              show-alpha
-              :predefine="predefinedColors"
-              @change="handleColorChange"
+          <template #trigger>
+            <el-button
+              plain
+              class="color-trigger-btn"
               @click.stop
-            />
-          </div>
-        </el-popover>
+            >
+              <i class="iconfont icon-palette"></i> <!-- 使用您的调色盘图标 -->
+            </el-button>
+          </template>
+        </el-color-picker>
       </div>
     </div>
     <div class="content">
@@ -170,38 +167,29 @@ import { emitContextmenuEvent } from '@/hooks/useContextMenuEvent'
 import { RESOURCE_TYPES } from '@/constant'
 import FolderPath from './components/content/FolderPath.vue'
 
-const colorPickerVisible = ref(false)
-const selectedBgColor = ref('')
+const selectedBgColor = ref('#FF5252') // 默认深红色（与图片背景一致）
 
-// 预定义颜色
+// 精确匹配图片中的调色盘预定义颜色
 const predefinedColors = [
-  '#FFFFFF', '#F5F5F5', '#E8F5E9', '#E3F2FD',
-  '#F3E5F5', '#FFF3E0', '#FFEBEE', '#212121'
+  // 第一行灰色系
+  '#FFFFFF', '#F5F5F5', '#E0E0E0', '#BDBDBD',
+  // 第二行深色系
+  '#9E9E9E', '#757575', '#616161', '#424242',
+  // 其他色系（根据实际需求调整）
+  '#FF5252', '#FF4081', '#E040FB', '#7C4DFF'
 ]
 
-// 应用颜色（点击OK时执行）
-const applyColor = () => {
-  // 直接应用当前选中的颜色
-  document.documentElement.style.setProperty('--page-bg-color', selectedBgColor.value)
-  localStorage.setItem('pageBgColor', selectedBgColor.value)
-  colorPickerVisible.value = false // 关闭调色盘
+// 应用颜色（直接选择即生效）
+const applyColor = (color) => {
+  document.documentElement.style.setProperty('--page-bg-color', color)
+  localStorage.setItem('pageBgColor', color)
 }
 
-// 清除颜色
-const resetColor = () => {
-  selectedBgColor.value = ''
-  document.documentElement.style.removeProperty('--page-bg-color')
-  localStorage.removeItem('pageBgColor')
-  colorPickerVisible.value = false // 关闭调色盘
-}
-
-// 初始化时读取保存的颜色
+// 初始化
 onMounted(() => {
-  const savedColor = localStorage.getItem('pageBgColor')
-  if (savedColor) {
-    selectedBgColor.value = savedColor
-    document.documentElement.style.setProperty('--page-bg-color', savedColor)
-  }
+  const savedColor = localStorage.getItem('pageBgColor') || '#FF5252'
+  selectedBgColor.value = savedColor
+  document.documentElement.style.setProperty('--page-bg-color', savedColor)
 })
 
 const store = useStore()
@@ -662,30 +650,44 @@ onUnmounted(() => {
 </style>
 
 <style scoped>
-.color-picker-panel {
-  padding: 12px;
+/* 右上角按钮容器 */
+.header-right {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  gap: 12px;
+}
 
-  .el-color-picker {
-    margin-bottom: 12px;
+/* 所有头部按钮统一样式 */
+.header-btn {
+  margin-left: 0;
+  padding: 6px 12px;
+}
+
+/* 调色盘触发按钮特殊样式 */
+.color-trigger-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-color: #fff; /* 白色边框 */
+  background-color: #fff; /* 白色背景 */
+
+  &:hover {
+    background-color: #f5f5f5;
   }
 
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 10px;
-
-    .clear-btn {
-      color: #666;
-    }
-
-    .ok-btn {
-      background-color: rgba(39, 232, 36, 1);
-      border-color: rgba(39, 232, 36, 1);
-    }
+  i {
+    font-size: 18px;
+    color: #555; /* 图标颜色 */
   }
+}
+
+/* 调色盘弹出面板样式调整 */
+:deep(.el-color-picker__panel) {
+  width: 280px !important;
+  border-radius: 4px !important;
+}
+
+:deep(.el-color-dropdown__btns) {
+  padding: 8px !important;
 }
 </style>
