@@ -26,12 +26,13 @@
               class="color-picker-btn"
             ></IconBtn>
           </template>
-          <div class="color-picker-panel">
+          <div class="color-picker-panel" @click.stop>
             <el-color-picker
               v-model="tempBgColor"
               show-alpha
               :predefine="predefinedColors"
               @change="handleColorChange"
+              @click.stop
             />
             <div class="button-group">
               <el-button
