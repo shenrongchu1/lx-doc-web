@@ -20,16 +20,19 @@
           width="300"
           v-model:visible="colorPickerVisible"
         >
-        <div class="color-picker-panel" @click.stop>
-          <!-- 调色盘组件 -->
-          <el-color-picker
-            v-model="selectedBgColor"
-            show-alpha
-            :predefine="predefinedColors"
-            @change="handleColorChange"
-            @click.stop
-          />
-        </div>
+          <template #reference>
+            <IconBtn icon="icon-yanse" class="color-picker-btn"></IconBtn>
+          </template>
+          <div class="color-picker-panel" @click.stop>
+            <!-- 调色盘组件 -->
+            <el-color-picker
+              v-model="selectedBgColor"
+              show-alpha
+              :predefine="predefinedColors"
+              @change="handleColorChange"
+              @click.stop
+            />
+          </div>
         </el-popover>
       </div>
     </div>
