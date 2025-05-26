@@ -21,34 +21,29 @@
           v-model:visible="colorPickerVisible"
         >
           <template #reference>
-            <IconBtn
-              icon="icon-yanse"
-              class="color-picker-btn"
-            ></IconBtn>
+            <IconBtn icon="icon-yanse" class="color-picker-btn"></IconBtn>
           </template>
           <div class="color-picker-panel" @click.stop>
+            <!-- 调色盘组件 -->
             <el-color-picker
-              v-model="tempBgColor"
+              v-model="selectedBgColor"
               show-alpha
               :predefine="predefinedColors"
               @change="handleColorChange"
               @click.stop
             />
+            <!-- 底部按钮组 -->
             <div class="button-group">
+              <el-button size="small" @click="resetColor" class="clear-btn">
+                Clear
+              </el-button>
               <el-button
                 type="primary"
                 size="small"
-                @click="applyBackgroundColor"
-                class="confirm-btn"
+                @click="applyColor"
+                class="ok-btn"
               >
-                确认
-              </el-button>
-              <el-button
-                size="small"
-                @click="resetBackgroundColor"
-                class="reset-btn"
-              >
-                重置
+                OK
               </el-button>
             </div>
           </div>
@@ -190,42 +185,38 @@ import { RESOURCE_TYPES } from '@/constant'
 import FolderPath from './components/content/FolderPath.vue'
 
 const colorPickerVisible = ref(false)
-const tempBgColor = ref('')
-const selectedBgColor = ref(localStorage.getItem('pageBgColor') || '#FFFFFF')
+const selectedBgColor = ref('')
 
-// 应用背景颜色
-const applyBackgroundColor = () => {
-  selectedBgColor.value = tempBgColor.value
+// 预定义颜色
+const predefinedColors = [
+  '#FFFFFF', '#F5F5F5', '#E8F5E9', '#E3F2FD',
+  '#F3E5F5', '#FFF3E0', '#FFEBEE', '#212121'
+]
+
+// 应用颜色（点击OK时执行）
+const applyColor = () => {
+  // 直接应用当前选中的颜色
+  document.documentElement.style.setProperty('--page-bg-color', selectedBgColor.value)
   localStorage.setItem('pageBgColor', selectedBgColor.value)
-  colorPickerVisible.value = false
-  document.documentElement.style.setProperty('--page-bg-color', selectedBgColor.value)
+  colorPickerVisible.value = false // 关闭调色盘
 }
 
-// 重置背景颜色
-const resetBackgroundColor = () => {
-  tempBgColor.value = '#FFFFFF'
-  selectedBgColor.value = '#FFFFFF'
+// 清除颜色
+const resetColor = () => {
+  selectedBgColor.value = ''
+  document.documentElement.style.removeProperty('--page-bg-color')
   localStorage.removeItem('pageBgColor')
-  document.documentElement.style.setProperty('--page-bg-color', '#FFFFFF')
-  colorPickerVisible.value = false
+  colorPickerVisible.value = false // 关闭调色盘
 }
 
-// 初始化时设置颜色
+// 初始化时读取保存的颜色
 onMounted(() => {
-  document.documentElement.style.setProperty('--page-bg-color', selectedBgColor.value)
-  tempBgColor.value = selectedBgColor.value
+  const savedColor = localStorage.getItem('pageBgColor')
+  if (savedColor) {
+    selectedBgColor.value = savedColor
+    document.documentElement.style.setProperty('--page-bg-color', savedColor)
+  }
 })
-
-const predefinedColors = ref([
-  '#FFFFFF', // 白色
-  '#F5F5F5', // 浅灰
-  '#E8F5E9', // 浅绿
-  '#E3F2FD', // 浅蓝
-  '#F3E5F5', // 浅紫
-  '#FFF3E0', // 浅橙
-  '#FFEBEE', // 浅红
-  '#212121', // 深灰
-])
 
 const store = useStore()
 
@@ -681,5 +672,34 @@ onUnmounted(() => {
 .headerRight {
   display: flex;
   align-items: center;
+}
+</style>
+
+<style scoped>
+.color-picker-panel {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .el-color-picker {
+    margin-bottom: 12px;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+
+    .clear-btn {
+      color: #666;
+    }
+
+    .ok-btn {
+      background-color: rgba(39, 232, 36, 1);
+      border-color: rgba(39, 232, 36, 1);
+    }
+  }
 }
 </style>
