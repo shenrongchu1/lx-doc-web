@@ -13,6 +13,7 @@
       </div>
       <div class="headerRight">
         <Avatar></Avatar>
+
         <!-- 新增颜色选择按钮 -->
         <el-color-picker
           v-model="selectedBgColor"
@@ -31,6 +32,21 @@
             </el-button>
           </template>
         </el-color-picker>
+        <!-- 新增颜色选择按钮 -->
+
+        <!-- 上传背景图片按钮 -->
+        <el-upload
+          action="#"
+          :show-file-list="false"
+          :before-upload="beforeUploadBgImage"
+          accept="image/*"
+          class="header-btn"
+        >
+          <el-button plain>
+            <i class="iconfont icon-image"></i>
+            <span>背景图片</span>
+          </el-button>
+        </el-upload>
       </div>
     </div>
     <div class="content">
@@ -190,7 +206,66 @@ onMounted(() => {
   const savedColor = localStorage.getItem('pageBgColor') || '#FFFFFF'
   selectedBgColor.value = savedColor
   document.documentElement.style.setProperty('--page-bg-color', savedColor)
+
+  // 检查是否有背景图片配置
+  const store = useStore()
+  store.getUserConfig().then(config => {
+    if (config.backGroupImg) {
+      applyBackgroundImage(config.backGroupImg)
+    }
+  })
 })
+
+// 上传背景图片前的处理
+const beforeUploadBgImage = async (file) => {
+  try {
+    // 检查文件类型
+    if (!file.type.startsWith('image/')) {
+      ElMessage.error('请上传图片文件')
+      return false
+    }
+
+    // 创建FormData对象
+    const formData = new FormData()
+    formData.append('file', file)
+
+    // 调用上传接口
+    const { data } = await api.uploadFiles(formData)
+    const imageUrl = data[0] // 假设返回的数据结构中有url字段
+
+    // 更新用户配置
+    const store = useStore()
+    await store.updateUserConfig({
+      backGroupImg: imageUrl
+    })
+
+    // 应用背景图片
+    applyBackgroundImage(imageUrl)
+
+    return false // 阻止默认上传行为
+  } catch (error) {
+    console.error('上传背景图片失败:', error)
+    ElMessage.error('上传背景图片失败')
+    return false
+  }
+}
+
+// 应用背景图片
+const applyBackgroundImage = (imageUrl) => {
+  if (imageUrl) {
+    document.documentElement.style.setProperty(
+      '--page-bg-image',
+      `url(${imageUrl})`
+    )
+    document.documentElement.style.setProperty(
+      '--page-bg-style',
+      'center / cover no-repeat fixed'
+    )
+  } else {
+    document.documentElement.style.removeProperty('--page-bg-image')
+    document.documentElement.style.removeProperty('--page-bg-style')
+  }
+}
 
 const store = useStore()
 
@@ -493,8 +568,10 @@ onUnmounted(() => {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: var(--page-bg-color, #ffffff); /* 默认白色 */
-  transition: background-color 0.3s ease; /* 添加过渡效果 */
+  background-color: var(--page-bg-color, #ffffff);
+  background-image: var(--page-bg-image, none);
+  background: var(--page-bg-style, none);
+  transition: background-color 0.3s ease, background-image 0.3s ease;
 
   .header {
     height: 100px;
