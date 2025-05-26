@@ -13,6 +13,41 @@
       </div>
       <div class="headerRight">
         <Avatar></Avatar>
+        <!-- 新增颜色选择按钮 -->
+        <el-popover
+          placement="bottom-end"
+          trigger="click"
+          width="300"
+        >
+          <template #reference>
+            <IconBtn
+              icon="icon-yanse"
+              class="color-picker-btn"
+            ></IconBtn>
+          </template>
+          <div class="color-picker-panel">
+            <el-color-picker
+              v-model="selectedBgColor"
+              show-alpha
+              :predefine="predefinedColors"
+            />
+            <el-button
+              type="primary"
+              size="small"
+              @click="applyBackgroundColor"
+              class="confirm-btn"
+            >
+              确认
+            </el-button>
+            <el-button
+              size="small"
+              @click="resetBackgroundColor"
+              class="reset-btn"
+            >
+              重置
+            </el-button>
+          </div>
+        </el-popover>
       </div>
     </div>
     <div class="content">
@@ -148,6 +183,39 @@ import useLayoutChange from '@/hooks/useLayoutChange'
 import { emitContextmenuEvent } from '@/hooks/useContextMenuEvent'
 import { RESOURCE_TYPES } from '@/constant'
 import FolderPath from './components/content/FolderPath.vue'
+
+// 在这里添加 onMounted
+onMounted(() => {
+  const savedColor = localStorage.getItem('pageBgColor')
+  if (savedColor) {
+    selectedBgColor.value = savedColor
+  }
+})
+
+// 在原有代码中添加以下内容
+const selectedBgColor = ref('') // 存储选中的背景颜色
+const predefinedColors = ref([
+  '#FFFFFF', // 白色
+  '#F5F5F5', // 浅灰
+  '#E8F5E9', // 浅绿
+  '#E3F2FD', // 浅蓝
+  '#F3E5F5', // 浅紫
+  '#FFF3E0', // 浅橙
+  '#FFEBEE', // 浅红
+  '#212121', // 深灰
+])
+
+// 应用背景颜色
+const applyBackgroundColor = () => {
+  // 颜色已经通过 v-model 绑定自动更新
+  // 可以在这里添加持久化逻辑，如果需要保存用户选择
+  localStorage.setItem('pageBgColor', selectedBgColor.value)
+}
+
+// 重置背景颜色
+const resetBackgroundColor = () => {
+  selectedBgColor.value = ''
+}
 
 const store = useStore()
 
@@ -575,5 +643,31 @@ onUnmounted(() => {
       padding: 0 14px;
     }
   }
+}
+
+// 原有样式不变，添加以下内容
+.color-picker-btn {
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.color-picker-panel {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .el-color-picker {
+    margin-bottom: 12px;
+  }
+
+  .confirm-btn {
+    margin-bottom: 8px;
+  }
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
 }
 </style>
