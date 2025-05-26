@@ -167,7 +167,7 @@ import { emitContextmenuEvent } from '@/hooks/useContextMenuEvent'
 import { RESOURCE_TYPES } from '@/constant'
 import FolderPath from './components/content/FolderPath.vue'
 
-const selectedBgColor = ref('#FF5252') // 默认深红色（与图片背景一致）
+const selectedBgColor = ref('#FFFFFF') // 默认白色
 
 // 精确匹配图片中的调色盘预定义颜色
 const predefinedColors = [
