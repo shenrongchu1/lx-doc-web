@@ -166,7 +166,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onUnmounted } from 'vue'
+import { ref, computed, watch, onUnmounted, onMounted } from 'vue'
 import { Search, ArrowRight } from '@element-plus/icons-vue'
 import Avatar from './components/common/Avatar.vue'
 import { useStore } from '@/store'
