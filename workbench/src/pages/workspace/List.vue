@@ -187,7 +187,7 @@ const applyColor = (color) => {
 
 // 初始化
 onMounted(() => {
-  const savedColor = localStorage.getItem('pageBgColor') || '#FF5252'
+  const savedColor = localStorage.getItem('pageBgColor') || '#FFFFFF'
   selectedBgColor.value = savedColor
   document.documentElement.style.setProperty('--page-bg-color', savedColor)
 })
