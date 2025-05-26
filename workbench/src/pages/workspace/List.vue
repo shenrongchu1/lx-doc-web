@@ -1,5 +1,5 @@
 <template>
-  <div class="contentContainer">
+  <div class="contentContainer" :style="{ backgroundColor: selectedBgColor }">
     <div class="header">
       <div class="headerLeft">
         <el-input
@@ -186,11 +186,12 @@ import FolderPath from './components/content/FolderPath.vue'
 
 // 在这里添加 onMounted
 onMounted(() => {
-  const savedColor = localStorage.getItem('pageBgColor')
+  const savedColor = localStorage.getItem('pageBgColor');
   if (savedColor) {
-    selectedBgColor.value = savedColor
+    selectedBgColor.value = savedColor;
+    document.documentElement.style.setProperty('--page-bg-color', savedColor);
   }
-})
+});
 
 // 在原有代码中添加以下内容
 const selectedBgColor = ref('') // 存储选中的背景颜色
@@ -207,14 +208,16 @@ const predefinedColors = ref([
 
 // 应用背景颜色
 const applyBackgroundColor = () => {
-  // 颜色已经通过 v-model 绑定自动更新
+  document.documentElement.style.setProperty('--page-bg-color', selectedBgColor.value);
   // 可以在这里添加持久化逻辑，如果需要保存用户选择
   localStorage.setItem('pageBgColor', selectedBgColor.value)
 }
 
 // 重置背景颜色
 const resetBackgroundColor = () => {
-  selectedBgColor.value = ''
+  selectedBgColor.value = '';
+  document.documentElement.style.removeProperty('--page-bg-color');
+  localStorage.removeItem('pageBgColor');
 }
 
 const store = useStore()
@@ -518,6 +521,8 @@ onUnmounted(() => {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  background-color: var(--page-bg-color, #ffffff); /* 默认白色 */
+  transition: background-color 0.3s ease; /* 添加过渡效果 */
 
   .header {
     height: 100px;
