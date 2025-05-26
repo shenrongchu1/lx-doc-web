@@ -18,8 +18,7 @@
           placement="bottom-end"
           trigger="click"
           width="300"
-          :visible="colorPickerVisible"
-          @show="handleColorPickerShow"
+          v-model:visible="colorPickerVisible"
         >
           <template #reference>
             <IconBtn
@@ -34,21 +33,23 @@
               :predefine="predefinedColors"
               @change="handleColorChange"
             />
-            <el-button
-              type="primary"
-              size="small"
-              @click="applyBackgroundColor"
-              class="confirm-btn"
-            >
-              确认
-            </el-button>
-            <el-button
-              size="small"
-              @click="resetBackgroundColor"
-              class="reset-btn"
-            >
-              重置
-            </el-button>
+            <div class="button-group">
+              <el-button
+                type="primary"
+                size="small"
+                @click="applyBackgroundColor"
+                class="confirm-btn"
+              >
+                确认
+              </el-button>
+              <el-button
+                size="small"
+                @click="resetBackgroundColor"
+                class="reset-btn"
+              >
+                重置
+              </el-button>
+            </div>
           </div>
         </el-popover>
       </div>
@@ -187,30 +188,33 @@ import { emitContextmenuEvent } from '@/hooks/useContextMenuEvent'
 import { RESOURCE_TYPES } from '@/constant'
 import FolderPath from './components/content/FolderPath.vue'
 
-// 在这里添加 onMounted
-onMounted(() => {
-  const savedColor = localStorage.getItem('pageBgColor');
-  if (savedColor) {
-    selectedBgColor.value = savedColor;
-    document.documentElement.style.setProperty('--page-bg-color', savedColor);
-  }
-});
-
 const colorPickerVisible = ref(false)
-const tempBgColor = ref('') // 临时存储选择的颜色
+const tempBgColor = ref('')
+const selectedBgColor = ref(localStorage.getItem('pageBgColor') || '#FFFFFF')
 
-// 处理颜色选择器显示
-const handleColorPickerShow = () => {
-  colorPickerVisible.value = true
-  tempBgColor.value = selectedBgColor.value // 初始化临时颜色
+// 应用背景颜色
+const applyBackgroundColor = () => {
+  selectedBgColor.value = tempBgColor.value
+  localStorage.setItem('pageBgColor', selectedBgColor.value)
+  colorPickerVisible.value = false
+  document.documentElement.style.setProperty('--page-bg-color', selectedBgColor.value)
 }
 
-// 处理颜色变化（实时预览）
-const handleColorChange = (color) => {
-  document.documentElement.style.setProperty('--page-bg-color', color)
+// 重置背景颜色
+const resetBackgroundColor = () => {
+  tempBgColor.value = '#FFFFFF'
+  selectedBgColor.value = '#FFFFFF'
+  localStorage.removeItem('pageBgColor')
+  document.documentElement.style.setProperty('--page-bg-color', '#FFFFFF')
+  colorPickerVisible.value = false
 }
 
-const selectedBgColor = ref('') // 存储选中的背景颜色
+// 初始化时设置颜色
+onMounted(() => {
+  document.documentElement.style.setProperty('--page-bg-color', selectedBgColor.value)
+  tempBgColor.value = selectedBgColor.value
+})
+
 const predefinedColors = ref([
   '#FFFFFF', // 白色
   '#F5F5F5', // 浅灰
@@ -221,22 +225,6 @@ const predefinedColors = ref([
   '#FFEBEE', // 浅红
   '#212121', // 深灰
 ])
-
-// 应用背景颜色
-const applyBackgroundColor = () => {
-  selectedBgColor.value = tempBgColor.value
-  localStorage.setItem('pageBgColor', selectedBgColor.value)
-  colorPickerVisible.value = false
-}
-
-// 重置背景颜色
-const resetBackgroundColor = () => {
-  tempBgColor.value = ''
-  selectedBgColor.value = ''
-  document.documentElement.style.removeProperty('--page-bg-color')
-  localStorage.removeItem('pageBgColor')
-  colorPickerVisible.value = false
-}
 
 const store = useStore()
 
