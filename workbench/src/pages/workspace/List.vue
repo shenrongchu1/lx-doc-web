@@ -220,10 +220,10 @@ onMounted(() => {
 const beforeUploadBgImage = async (file) => {
   try {
     // 检查文件类型
-    if (!file.type.startsWith('image/')) {
-      ElMessage.error('请上传图片文件')
-      return false
-    }
+    // if (!file.type.startsWith('image/')) {
+    //   ElMessage.error('请上传图片文件')
+    //   return false
+    // }
 
     // 创建FormData对象
     const formData = new FormData()
@@ -570,6 +570,7 @@ onUnmounted(() => {
   flex-direction: column;
   background-color: var(--page-bg-color, #ffffff);
   background-image: var(--page-bg-image, none);
+  background: var(--page-bg-style, none);
   transition: background-color 0.3s ease, background-image 0.3s ease;
 
   .header {
