@@ -571,6 +571,10 @@ onUnmounted(() => {
   background-color: var(--page-bg-color, #ffffff);
   background-image: var(--page-bg-image, none);
   transition: background-color 0.3s ease, background-image 0.3s ease;
+  background-size: var(--page-bg-size, cover); // 添加这一行
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; // 可选：固定背景不随内容滚动
 
   .header {
     height: 100px;
