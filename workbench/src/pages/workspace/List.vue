@@ -570,7 +570,6 @@ onUnmounted(() => {
   flex-direction: column;
   background-color: var(--page-bg-color, #ffffff);
   background-image: var(--page-bg-image, none);
-  background: var(--page-bg-style, none);
   transition: background-color 0.3s ease, background-image 0.3s ease;
 
   .header {
