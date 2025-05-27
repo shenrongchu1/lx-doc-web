@@ -17,7 +17,8 @@ export default defineConfig({
     proxy: {
       '^/api': {
         target: 'http://localhost:9222/',
-        changeOrigin: true
+        changeOrigin: true,
+        timeout: 30000
       },
       '^/static': {
         target: 'http://localhost:9222/',
