@@ -231,7 +231,7 @@ const beforeUploadBgImage = async (file) => {
 
     // 调用上传接口
     const { data } = await api.uploadFiles(formData)
-    const imageUrl = data[0] // 假设返回的数据结构中有url字段
+    const imageUrl = data[0]
 
     // 更新用户配置
     const store = useStore()
