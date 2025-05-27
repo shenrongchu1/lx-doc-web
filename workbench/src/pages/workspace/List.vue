@@ -257,13 +257,13 @@ const applyBackgroundImage = (imageUrl) => {
       '--page-bg-image',
       `url(${imageUrl})`
     )
-    document.documentElement.style.setProperty(
-      '--page-bg-style',
-      'center / cover no-repeat fixed'
-    )
+    // document.documentElement.style.setProperty(
+    //   '--page-bg-style',
+    //   'center / cover no-repeat fixed'
+    // )
   } else {
     document.documentElement.style.removeProperty('--page-bg-image')
-    document.documentElement.style.removeProperty('--page-bg-style')
+    // document.documentElement.style.removeProperty('--page-bg-style')
   }
 }
 
@@ -570,7 +570,6 @@ onUnmounted(() => {
   flex-direction: column;
   background-color: var(--page-bg-color, #ffffff);
   background-image: var(--page-bg-image, none);
-  background: var(--page-bg-style, none);
   transition: background-color 0.3s ease, background-image 0.3s ease;
 
   .header {
